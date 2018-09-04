@@ -74,7 +74,26 @@ export default new Vuex.Store({
         .then(res => {
           dispatch('getBoards')
         })
-    }
+    },
 
+    //LISTS
+    getLists({ commit, dispatch }) {
+      api.get('lists')
+        .then(res => {
+          commit('setList', res.data)
+        })
+    },
+    addList({ commit, dispatch }, listData) {
+      api.post('lists', listData)
+        .then(serverList => {
+          dispatch('getLists')
+        })
+    },
+    deleteList({ commit, dispatch }, listInfo) {
+      api.delete('list/${listInfo._id}', listInfo)
+        .then(res => {
+          dispatch('getLists')
+        })
+    }
   }
 })
