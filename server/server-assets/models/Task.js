@@ -1,7 +1,7 @@
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
-let schemaName = 'List'
+let schemaName = 'Task'
 let commentSchema = new Schema({
     authorId: { type: ObjectId, ref: 'User', required: true },
     description: { type: String, required: true },

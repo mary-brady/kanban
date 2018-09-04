@@ -51,11 +51,6 @@ let taskRoutes = require('./server-assets/routes/task')
 server.use('/api/tasks', taskRoutes)
 
 
-
-
-
-
-
 //Catch all
 server.get('*', (req, res, next) => {
   res.status(404).send({
