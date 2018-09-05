@@ -49,34 +49,7 @@ router.put('/:id', (req, res, next) => {
             next()
         })
 })
-//specify new: true
-//adding a comment
-router.put('/:id/comments', (req, res, next) => {
-    req.body.authorId = req.session.uid
-    Tasks.findById(req.params.id)
-        .then((task) => {
-            task.comments.push(req.body)
-            task.save()
-            res.send("EDITED!")
-        })
-        .catch(err => {
-            console.log(err)
-            next()
-        })
-})
-//deleting a comment
-router.delete('/:taskId/comments/:commentId', (req, res, next) => {
-    Tasks.findById(req.params.taskId)
-        .then(task => {
-            task.comments.id(req.params.commentId).remove()
-            task.save()
-            res.send('Comment deleted')
-        })
-        .catch(err => {
-            console.log(err)
-            next()
-        })
-})
+
 
 //DELETE task
 router.delete('/:id', (req, res, next) => {
@@ -89,6 +62,16 @@ router.delete('/:id', (req, res, next) => {
                 .then(data => {
                     res.send('DELORTED')
                 })
+        })
+})
+
+//Delete all tasks by list id
+router.delete('/by-list/:id', (req, res, next) => {
+    Tasks.deleteMany({ listId: req.params.id })
+        .then(data => res.send("Tasks delorted"))
+        .catch(err => {
+            console.log(err.message)
+            next()
         })
 })
 

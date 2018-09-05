@@ -64,5 +64,15 @@ router.delete('/:id', (req, res, next) => {
         })
 })
 
+//Delete all lists by board id
+router.delete('/by-board/:id', (req, res, next) => {
+    Lists.deleteMany({ boardId: req.params.id })
+        .then(data => res.send("Lists delorted"))
+        .catch(err => {
+            console.log(err.message)
+            next()
+        })
+})
+
 
 module.exports = router

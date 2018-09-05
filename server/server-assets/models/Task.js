@@ -2,11 +2,6 @@ let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
 let schemaName = 'Task'
-let commentSchema = new Schema({
-    authorId: { type: ObjectId, ref: 'User', required: true },
-    description: { type: String, required: true },
-    created: { type: Number, required: true, default: Date.now() }
-})
 
 let schema = new Schema({
     title: { type: String, required: true },
@@ -18,8 +13,7 @@ let schema = new Schema({
     assignee: { type: String, default: 'unassigned' },
     status: { type: String, default: 'to-do' },
     estTime: { type: Number },
-    startDate: { type: Date },
-    comments: [commentSchema]
+    startDate: { type: Date }
 })
 
 
