@@ -42,7 +42,8 @@ export default new Vuex.Store({
     },
 
     setList(state, lists) {
-      state.lists[state.activeBoard._id] = lists
+      // state.lists[state.activeBoard._id] = lists
+      Vue.set(state.lists, state.activeBoard._id, lists)
       console.log('state.lists = ', state.lists)
     }
   },
