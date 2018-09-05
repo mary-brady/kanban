@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Axios from 'axios'
 import router from './router'
 
+
 Vue.use(Vuex)
 
 let auth = Axios.create({
@@ -21,7 +22,10 @@ export default new Vuex.Store({
   state: {
     user: {},
     boards: [],
-    activeBoard: {}
+    activeBoard: {},
+    lists: {},
+    tasks: {},
+    comments: {}
   },
   mutations: {
     setUser(state, user) {
@@ -30,6 +34,16 @@ export default new Vuex.Store({
     },
     setBoards(state, boards) {
       state.boards = boards
+    },
+
+    setActiveBoard(state, boardId) {
+      state.activeBoard = state.boards.find(board => board._id == boardId)
+      console.log('activeBoard = ', state.activeBoard)
+    },
+
+    setList(state, lists) {
+      state.lists[state.activeBoard._id] = lists
+      console.log('state.lists = ', state.lists)
     }
   },
   actions: {
@@ -41,6 +55,7 @@ export default new Vuex.Store({
           router.push({ name: 'boards' })
         })
     },
+
     authenticate({ commit, dispatch }) {
       auth.get('authenticate')
         .then(res => {
@@ -48,6 +63,7 @@ export default new Vuex.Store({
           router.push({ name: 'boards' })
         })
     },
+
     login({ commit, dispatch }, creds) {
       auth.post('login', creds)
         .then(res => {
@@ -56,6 +72,8 @@ export default new Vuex.Store({
         })
     },
 
+
+
     //BOARDS
     getBoards({ commit, dispatch }) {
       api.get('boards')
@@ -63,12 +81,14 @@ export default new Vuex.Store({
           commit('setBoards', res.data)
         })
     },
+
     addBoard({ commit, dispatch }, boardData) {
       api.post('boards', boardData)
         .then(serverBoard => {
           dispatch('getBoards')
         })
     },
+
     deleteBoard({ commit, dispatch }, boardId) {
       api.delete('boards/' + boardId)
         .then(res => {
@@ -76,17 +96,21 @@ export default new Vuex.Store({
         })
     },
 
+    setActiveBoard({ commit, dispatch }, boardId) {
+      commit('setActiveBoard', boardId)
+    },
+
     //LISTS
-    getLists({ commit, dispatch }) {
-      api.get('lists')
+    getLists({ commit, dispatch }, boardId) {
+      api.get('lists/by-board/' + boardId)
         .then(res => {
           commit('setList', res.data)
         })
     },
     addList({ commit, dispatch }, listData) {
-      api.post('lists', listData)
+      api.post('lists/', listData)
         .then(serverList => {
-          dispatch('getLists')
+          dispatch('getLists', listData.boardId)
         })
     },
     deleteList({ commit, dispatch }, listInfo) {
