@@ -15,6 +15,10 @@ let schema = new Schema({
     authorId: { type: ObjectId, ref: 'User', required: true },
     listId: { type: ObjectId, ref: 'List', required: true },
     description: { type: String, required: true },
+    assignee: { type: String, default: 'unassigned' },
+    status: { type: String, default: 'to-do' },
+    estTime: { type: Number },
+    startDate: { type: Date },
     comments: [commentSchema]
 })
 

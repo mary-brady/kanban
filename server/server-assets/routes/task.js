@@ -52,10 +52,12 @@ router.put('/:id', (req, res, next) => {
 //specify new: true
 //adding a comment
 router.put('/:id/comments', (req, res, next) => {
+    req.body.authorId = req.session.uid
     Tasks.findById(req.params.id)
-        .then(task => {
+        .then((task) => {
             task.comments.push(req.body)
-            return task.save()
+            task.save()
+            res.send("EDITED!")
         })
         .catch(err => {
             console.log(err)
