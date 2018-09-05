@@ -1,6 +1,5 @@
 <template>
   <div class="list">
-    <div v-for="list in myLists" :key="list._id">
       <h4>{{list.title}}</h4>
       <button @click="deleteList(list._id)">DELETE LIST</button>
       <button @click="taskFormVisible == true">Add Task</button>
@@ -13,14 +12,14 @@
         <input type="text" name="startDate" v-model="newTask.startDate">
     </form>
     </div>
-  </div>
+
 </template>
 
 <script>
 export default {
   name: "List",
 
-  props: ["boardId"],
+  props: ["list"],
 
   data() {
     return {
@@ -48,15 +47,7 @@ export default {
     }
   },
 
-  computed: {
-    myLists() {
-      console.log("myList: ", this.$store.state.lists);
-      return this.$store.state.lists[this.boardId];
-    },
-    activeBoard() {
-      return this.$store.state.activeBoard;
-    }
-  }
+  computed: {}
 };
 </script>
 

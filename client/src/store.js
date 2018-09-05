@@ -99,6 +99,7 @@ export default new Vuex.Store({
 
     setActiveBoard({ commit, dispatch }, boardId) {
       commit('setActiveBoard', boardId)
+      dispatch('getLists', boardId)
     },
 
     //LISTS

@@ -6,7 +6,9 @@
       <input type="text" placeholder="title" v-model="newList.title" required>
       <button type="submit">Create List</button>
     </form>
-  <List :boardId = "boardId"/>
+    <div v-for="list in myLists" :key="list._id">
+      <List :list = "list"/>
+  </div>
   <Task />
   </div>
 </template>
@@ -48,6 +50,12 @@ export default {
     addList() {
       this.$store.dispatch("addList", this.newList);
       this.newList = { title: "" };
+    }
+  },
+  computed: {
+    myLists() {
+      console.log("myList: ", this.$store.state.lists);
+      return this.$store.state.lists[this.boardId];
     }
   }
 };
