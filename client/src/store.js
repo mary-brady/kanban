@@ -44,14 +44,15 @@ export default new Vuex.Store({
     },
 
     setLists(state, lists) {
-      // state.lists[state.activeBoard._id] = lists
       Vue.set(state.lists, state.activeBoard._id, lists)
-      console.log('state.lists = ', state.lists)
     },
 
     setTasks(state, taskList) {
       Vue.set(state.tasks, taskList.listId, taskList.tasks)
-      console.log('state.tasks = ', state.tasks)
+    },
+    setComments(state, commentList) {
+      Vue.set(state.comments, commentList.taskId, commentList.comments)
+      console.log('setComments: ', state.comments[commentList.taskId])
     }
   },
   actions: {
@@ -79,7 +80,6 @@ export default new Vuex.Store({
           router.push({ name: 'boards' })
         })
     },
-
 
 
     //BOARDS
@@ -127,7 +127,7 @@ export default new Vuex.Store({
         })
     },
     deleteList({ commit, dispatch }, listData) {
-      api.delete('list/${listInfo._id}', listData)
+      api.delete('lists/' + listData._id)
         .then(res => {
           dispatch('getLists', listData.boardId)
         })
@@ -138,8 +138,10 @@ export default new Vuex.Store({
     getTasks({ commit, dispatch }, listId) {
       api.get('tasks/by-list/' + listId)
         .then(res => {
-          console.log("getTasks = ", res.data)
           commit('setTasks', { listId: listId, tasks: res.data })
+          res.data.forEach(task => {
+            dispatch('getComments', task._id)
+          })
         })
         .catch(err => console.log(err.message))
     },
@@ -147,8 +149,30 @@ export default new Vuex.Store({
     addTask({ commit, dispatch }, newTask) {
       api.post('tasks/', newTask)
         .then(res => {
-          console.log("response to addTask = ", res.data)
-          dispatch('getTasks', res.data.listId)
+          dispatch('getTasks', newTask.listId)
+        })
+        .catch(err => console.log(err.message))
+    },
+
+    deleteTask({ commit, dispatch }, taskData) {
+      api.delete('tasks/' + taskData._id)
+        .then(res => {
+          dispatch('getTasks', taskData.listId)
+        })
+        .catch(err => console.log(err.message))
+    },
+    //COMMENT STUFF
+    addComment({ commit, dispatch }, newComment) {
+      api.post('comments/', newComment)
+        .then(res => {
+          console.log("add comment: ", res.data)
+          dispatch('getComments', newComment.taskId)
+        })
+    },
+    getComments({ commit, dispatch }, taskId) {
+      api.get('comments/by-task/' + taskId)
+        .then(res => {
+          commit('setComments', { taskId: taskId, comments: res.data })
         })
         .catch(err => console.log(err.message))
     }

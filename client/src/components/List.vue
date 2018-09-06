@@ -1,7 +1,7 @@
 <template>
   <div class="list mt-5">
     <h4><strong>{{list.title}}</strong></h4>
-    <button @click="deleteList(list._id)">DELETE LIST</button>
+    <button @click="deleteList(list)">DELETE LIST</button>
     <button @click="taskFormVisible = !taskFormVisible">Add Task</button>
     <form class="form-group mt-2" v-if="taskFormVisible" @submit.prevent="addTask(list._id)">
       <input type="text" name="title" v-model="newTask.title" placeholder="task title">
@@ -12,56 +12,71 @@
       <input type="text" name="startDate" v-model="newTask.startDate" placeholder="start date (YYYY/MM/DD)"><br>
       <button type="submit" class="btn btn-primary mt-2">Create Task</button>
     </form>
+    <div class="task">
+      <div v-for="task in taskList" :key="task._id" class="col-md-2">
+        <Task :task="task" :list="list" v-on:showDetail="showDetail" />
+    </div>
   </div>
-
+</div>
 </template>
 
 <script>
-  export default {
-    name: "List",
+import Task from "@/components/Task.vue";
 
-    props: ["list", "boardId"],
+export default {
+  name: "List",
 
-    data() {
-      return {
-        taskFormVisible: false,
-        newTask: {
-          title: "",
-          description: "",
-          assignee: "",
-          status: "",
-          estTime: "",
-          startDate: undefined,
-          listId: "",
-          boardId: this.boardId
-        }
-      };
-    },
+  props: ["list", "boardId"],
 
-    methods: {
-      deleteList(listId) {
-        this.$store.dispatch("deleteList", listId);
-      },
+  components: {
+    Task
+  },
 
-      addTask(listId) {
-        this.newTask.listId = listId;
-        this.$store.dispatch("addTask", this.newTask);
-        this.newTask = {
-          title: "",
-          description: "",
-          assignee: "",
-          status: "",
-          estTime: "",
-          startDate: undefined
-        }
-        this.taskFormVisible = false
+  data() {
+    return {
+      taskFormVisible: false,
+      newTask: {
+        title: "",
+        description: "",
+        assignee: "",
+        status: "",
+        estTime: "",
+        startDate: undefined,
+        listId: "",
+        boardId: this.boardId
       }
+    };
+  },
+
+  methods: {
+    deleteList(list) {
+      this.$store.dispatch("deleteList", list);
     },
 
-    computed: {
-
+    addTask(listId) {
+      this.newTask.listId = listId;
+      this.$store.dispatch("addTask", this.newTask);
+      this.newTask = {
+        title: "",
+        description: "",
+        assignee: "",
+        status: "",
+        estTime: "",
+        startDate: undefined
+      };
+      this.taskFormVisible = false;
+    },
+    showDetail(task) {
+      this.$parent.$emit("showDetail", task);
     }
-  };
+  },
+
+  computed: {
+    taskList() {
+      return this.$store.state.tasks[this.list._id];
+    }
+  }
+};
 </script>
 
 <style scoped>
