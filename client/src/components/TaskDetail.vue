@@ -13,8 +13,7 @@
 
 <h2>Comments</h2>
 <ul>
-    <li v-for="comment in comments" :key="comment._id">{{comment.userName}} &nbsp {{comment.description}}</li>
-
+    <li v-for="comment in comments" :key="comment._id">{{comment.userName}} &nbsp {{comment.description}} &nbsp <span @click="deleteComment(comment)"> <i class="fa fa-trash"></i> </span> </li>
 </ul>
 
 </div>    
@@ -24,6 +23,12 @@ export default {
   name: "TaskDetail",
 
   props: ["activeTask"],
+
+  methods: {
+    deleteComment(comment) {
+      this.$store.dispatch("deleteComment", comment);
+    }
+  },
 
   computed: {
     comments() {

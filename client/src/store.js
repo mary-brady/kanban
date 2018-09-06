@@ -175,6 +175,13 @@ export default new Vuex.Store({
           commit('setComments', { taskId: taskId, comments: res.data })
         })
         .catch(err => console.log(err.message))
+    },
+    deleteComment({ commit, dispatch }, commentData) {
+      api.delete('comments/' + commentData._id)
+        .then(res => {
+          dispatch('getComments', commentData.taskId)
+        })
+        .catch(err => console.log(err.message))
     }
   }
 })
