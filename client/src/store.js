@@ -27,7 +27,9 @@ export default new Vuex.Store({
     tasks: {},
     comments: {}
   },
+
   mutations: {
+
     setUser(state, user) {
       state.user = user
       console.log("user", state.user)
@@ -41,10 +43,15 @@ export default new Vuex.Store({
       console.log('activeBoard = ', state.activeBoard)
     },
 
-    setList(state, lists) {
+    setLists(state, lists) {
       // state.lists[state.activeBoard._id] = lists
       Vue.set(state.lists, state.activeBoard._id, lists)
       console.log('state.lists = ', state.lists)
+    },
+
+    setTasks(state, taskList) {
+      Vue.set(state.tasks, taskList.listId, taskList.tasks)
+      console.log('state.tasks = ', state.tasks)
     }
   },
   actions: {
@@ -106,8 +113,12 @@ export default new Vuex.Store({
     getLists({ commit, dispatch }, boardId) {
       api.get('lists/by-board/' + boardId)
         .then(res => {
-          commit('setList', res.data)
+          commit('setLists', res.data)
+          res.data.forEach(list => {
+            dispatch('getTasks', list._id)
+          })
         })
+        .catch(err => console.log(err.message))
     },
     addList({ commit, dispatch }, listData) {
       api.post('lists/', listData)
@@ -115,11 +126,31 @@ export default new Vuex.Store({
           dispatch('getLists', listData.boardId)
         })
     },
-    deleteList({ commit, dispatch }, listInfo) {
-      api.delete('list/${listInfo._id}', listInfo)
+    deleteList({ commit, dispatch }, listData) {
+      api.delete('list/${listInfo._id}', listData)
         .then(res => {
-          dispatch('getLists')
+          dispatch('getLists', listData.boardId)
         })
+        .catch(err => console.log(err.message))
+    },
+
+    //TASK STUFF
+    getTasks({ commit, dispatch }, listId) {
+      api.get('tasks/by-list/' + listId)
+        .then(res => {
+          console.log("getTasks = ", res.data)
+          commit('setTasks', { listId: listId, tasks: res.data })
+        })
+        .catch(err => console.log(err.message))
+    },
+
+    addTask({ commit, dispatch }, newTask) {
+      api.post('tasks/', newTask)
+        .then(res => {
+          console.log("response to addTask = ", res.data)
+          dispatch('getTasks', res.data.listId)
+        })
+        .catch(err => console.log(err.message))
     }
   }
 })

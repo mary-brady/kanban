@@ -1,54 +1,67 @@
 <template>
-  <div class="list">
-      <h4>{{list.title}}</h4>
-      <button @click="deleteList(list._id)">DELETE LIST</button>
-      <button @click="taskFormVisible == true">Add Task</button>
-      <form v-if="taskFormVisible" @submit.prevent="addTask(list._id)">
-        <input type="text" name="title" v-model="newTask.title">
-        <input type="text" name="description" v-model="newTask.description">
-        <input type="text" name="assignee" v-model="newTask.assignee">
-        <input type="text" name="status" v-model="newTask.status">
-        <input type="text" name="estTime" v-model="newTask.estTime">
-        <input type="text" name="startDate" v-model="newTask.startDate">
+  <div class="list mt-5">
+    <h4><strong>{{list.title}}</strong></h4>
+    <button @click="deleteList(list._id)">DELETE LIST</button>
+    <button @click="taskFormVisible = !taskFormVisible">Add Task</button>
+    <form class="form-group mt-2" v-if="taskFormVisible" @submit.prevent="addTask(list._id)">
+      <input type="text" name="title" v-model="newTask.title" placeholder="task title">
+      <input type="text" name="description" v-model="newTask.description" placeholder="description">
+      <input type="text" name="assignee" v-model="newTask.assignee" placeholder="task assigned to">
+      <input type="text" name="status" v-model="newTask.status" placeholder="status(to-do, in-work, complete)">
+      <input type="text" name="estTime" v-model="newTask.estTime" placeholder="estimated duration (hrs)">
+      <input type="text" name="startDate" v-model="newTask.startDate" placeholder="start date (YYYY/MM/DD)"><br>
+      <button type="submit" class="btn btn-primary mt-2">Create Task</button>
     </form>
-    </div>
+  </div>
 
 </template>
 
 <script>
-export default {
-  name: "List",
+  export default {
+    name: "List",
 
-  props: ["list"],
+    props: ["list", "boardId"],
 
-  data() {
-    return {
-      taskFormVisible: false,
-      newTask: {
-        title: "",
-        description: "",
-        assignee: "",
-        status: "",
-        estTime: "",
-        startDate: undefined,
-        listId: "",
-        boardId: this.activeBoard._id
-      }
-    };
-  },
-
-  methods: {
-    deleteList(listId) {
-      this.$store.dispatch("deleteList", listId);
+    data() {
+      return {
+        taskFormVisible: false,
+        newTask: {
+          title: "",
+          description: "",
+          assignee: "",
+          status: "",
+          estTime: "",
+          startDate: undefined,
+          listId: "",
+          boardId: this.boardId
+        }
+      };
     },
-    addTask(listId) {
-      newTask.listId = listId;
-      this.$store.dispatch("addTask", newTask);
-    }
-  },
 
-  computed: {}
-};
+    methods: {
+      deleteList(listId) {
+        this.$store.dispatch("deleteList", listId);
+      },
+
+      addTask(listId) {
+        this.newTask.listId = listId;
+        this.$store.dispatch("addTask", this.newTask);
+        this.newTask = {
+          title: "",
+          description: "",
+          assignee: "",
+          status: "",
+          estTime: "",
+          startDate: undefined
+        }
+        this.taskFormVisible = false
+      }
+    },
+
+    computed: {
+
+    }
+  };
 </script>
 
 <style scoped>
