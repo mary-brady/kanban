@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     userName() {
-      this.$store.state.user.name;
+      return this.$store.state.user.name;
     }
   }
 };
