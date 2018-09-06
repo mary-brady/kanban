@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <TaskDetail :activeTask="activeTask"/>
+        <TaskDetail :activeTask="activeTask" v-if="activeTask._id"/>
       </div>
     </div>
   </div>
