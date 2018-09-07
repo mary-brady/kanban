@@ -2,7 +2,7 @@
   <div class="task card border-primary mb-3">
     <div class="card-header bg-secondary text-white">
       <h3>
-        <span class="clickable" @click="showDetail(task)"><i class="fa fa-ellipsis-h"></i></span>&nbsp&nbsp
+        <span class="clickable right" @click="showDetail(task)"><i class="fa fa-ellipsis-h"></i></span>&nbsp&nbsp
         <span class="clickable" @click="deleteTask(task)"><i class="fa fa-trash-o"></i></i></span>
       </h3>
     </div>
