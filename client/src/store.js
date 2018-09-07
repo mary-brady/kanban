@@ -174,6 +174,15 @@ export default new Vuex.Store({
         .catch(err => console.log(err.message))
     },
 
+    updateTask({ commit, dispatch }, taskUpdate) {
+      api.put('/tasks/' + taskUpdate.taskId, { listId: taskUpdate.newListId })
+        .then(res => {
+          dispatch('getTasks', taskUpdate.oldListId)
+          dispatch('getTasks', taskUpdate.newListId)
+        })
+        .catch(err => console.log(err.message))
+    },
+
     deleteTask({ commit, dispatch }, taskData) {
       api.delete('tasks/' + taskData._id)
         .then(res => {

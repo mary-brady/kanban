@@ -12,16 +12,18 @@
       <input type="text" name="startDate" v-model="newTask.startDate" placeholder="start date (YYYY/MM/DD)"><br>
       <button type="submit" class="btn btn-primary mt-2">Create Task</button>
     </form>
-    <div class="task">
-      <div v-for="task in taskList" :key="task._id" class="mt-3">
+    <drop class="drop list" @drop="handleDrop(list, ...arguments)">
+      <drag v-for="task in taskList" :key="task._id" class="mt-3 drag" :class="{[task]: true}" :transfer-data="{task: task}">
         <Task :task="task" :list="list" :activeTask="activeTask" v-on:showDetail="showDetail" v-on:hideDetails="hideDetails" />
-      </div>
-    </div>
+      </drag>
+    </drop>
+
   </div>
 </template>
 
 <script>
   import Task from "@/components/Task.vue";
+  import { Drag, Drop } from 'vue-drag-drop'
 
   export default {
     name: "List",
@@ -29,7 +31,9 @@
     props: ["list", "boardId", "activeTask"],
 
     components: {
-      Task
+      Task,
+      Drag,
+      Drop
     },
 
     data() {
@@ -71,11 +75,20 @@
         this.taskFormVisible = false;
       },
       showDetail(task) {
-        this.$parent.$emit("showDetail", task);
+        this.$emit("showDetail", task);
       },
 
       hideDetails() {
         this.$parent.$emit("hideDetails")
+      },
+
+      handleDrop(toList, data) {
+        console.log("I moved!")
+        this.$store.dispatch('updateTask', {
+          taskId: data.task._id,
+          oldListId: data.task.listId,
+          newListId: toList._id
+        })
       }
     },
 
@@ -88,4 +101,7 @@
 </script>
 
 <style scoped>
+  .drop {
+    min-height: 100px;
+  }
 </style>

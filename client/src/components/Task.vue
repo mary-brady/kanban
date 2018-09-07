@@ -5,7 +5,7 @@
     <button @click="deleteTask(task)">DELETE TASK</button>
     <button @click="commentFormVisible = !commentFormVisible">Add Comment</button>
     <form class="form-group mt-2" v-if="commentFormVisible" @submit.prevent="addComment(task._id)">
-      <input type="text" name="description" v-model="newComment.description" placeholder="description">
+      <input type="text" name="description" v-model="newComment.description" placeholder="description"><br>
       <button type="submit" class="btn btn-primary mt-2">Create Comment</button>
     </form>
   </div>
@@ -36,7 +36,7 @@
         }
       },
       showDetail(task) {
-        this.$parent.$emit("showDetail", task);
+        this.$emit("showDetail", task);
       },
 
       addComment(taskId) {
