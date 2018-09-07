@@ -1,5 +1,5 @@
 <template>
-  <div class="TaskDetails">
+  <div class="task-details mt-3">
     <h1>{{activeTask.title}} &nbsp <span @click="hideDetails"><i class="fa fa-minus-circle clickable"></i></span></h1>
     <p>Description: {{activeTask.description}} </p>
     <ul>
@@ -45,5 +45,10 @@
 <style scoped>
   .clickable:hover {
     cursor: pointer;
+  }
+
+  .task-details {
+    border-left-color: #593196;
+    border-left-width: 2px;
   }
 </style>

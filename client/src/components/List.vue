@@ -1,11 +1,13 @@
 <template>
   <div class="list mt-5">
-    <h4><strong>{{list.title}}</strong></h4>
-    <button @click="deleteList(list)">DELETE LIST</button>
-    <button @click="taskFormVisible = !taskFormVisible">Add Task</button>
+    <div class="underline mb-3">
+      <h2 class="text-primary"><strong>{{list.title}}</strong></h2>
+    </div>
+    <button class="btn btn-success" @click="deleteList(list)">DELETE LIST</button>
+    <button class="btn btn-success ml-3" @click="taskFormVisible = !taskFormVisible">Add Task</button>
     <form class="form-group mt-2" v-if="taskFormVisible" @submit.prevent="addTask(list._id)">
       <input class="form-control" type="text" name="title" v-model="newTask.title" placeholder="task title">
-      <input class="form-control" type="text" name="description" v-model="newTask.description" placeholder="description">
+      <textarea class="form-control" name="description" rows="5" v-model="newTask.description" placeholder="description"></textarea>
       <input class="form-control" type="text" name="assignee" v-model="newTask.assignee" placeholder="task assigned to">
       <select name="status" v-model="newTask.status" class="form-control">
         <option value="To-do" selected>To-do</option>
@@ -16,7 +18,7 @@
       <input class="form-control" type="date" name="startDate" v-model="newTask.startDate" placeholder="start date (YYYY/MM/DD)"><br>
       <button type="submit" class="btn btn-primary mt-2">Create Task</button>
     </form>
-    <drop class="drop list" @drop="handleDrop(list, ...arguments)">
+    <drop class="drop list pl-2 pr-2 pt-3 pb-5 mt-2" @drop="handleDrop(list, ...arguments)">
       <drag v-for="task in taskList" :key="task._id" class="mt-3 drag" :class="{[task]: true}" :transfer-data="{task: task}">
         <Task :task="task" :list="list" :activeTask="activeTask" v-on:showDetail="showDetail" v-on:hideDetails="hideDetails" />
       </drag>
@@ -107,6 +109,11 @@
 
 <style scoped>
   .drop {
-    min-height: 100px;
+    min-height: 70vh;
+    background-color: rgba(241, 239, 239, 0.678);
+  }
+
+  .underline {
+    border-bottom: 2px solid #593196;
   }
 </style>

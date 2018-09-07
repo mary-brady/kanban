@@ -1,6 +1,6 @@
 <template>
   <div class="board container-fluid">
-    <div class="row header bg-primary text-white">
+    <div class="row bg-primary text-white">
       <div class="col-md-4">
         <form @submit.prevent="addList" class="mt-5 mb-5">
           <h3>Add New List</h3>
@@ -9,10 +9,10 @@
         </form>
       </div>
       <div class="col-md-4">
-        <h1 v-if="activeBoard.title" class="mt-3">{{activeBoard.title}}</h1>
-        <h5>{{activeBoard.description}}</h5>
-
-        <hr />
+        <div class="underline">
+          <h1 v-if="activeBoard.title" class="mt-3">{{activeBoard.title}}</h1>
+        </div>
+        <h5 class="mb-4 mt-3">{{activeBoard.description}}</h5>
       </div>
       <div class="col-md-4">
         <div id="nav">
@@ -22,7 +22,10 @@
           <h5 class="clickable inline" @click="logout">&nbsp Logout</h5>
         </div>
       </div>
+
     </div>
+
+
 
     <div class="row">
       <div class="col-md-8">
@@ -106,7 +109,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .clickable {
     color: lightgray;
   }
@@ -118,5 +121,18 @@
 
   .inline {
     display: inline-block;
+  }
+
+  .list-bucket {
+    min-height: 70vh;
+    border-right: 2px solid purple;
+  }
+
+  .header {
+    border-bottom: 2px solid black;
+  }
+
+  .underline {
+    border-bottom: 2px solid white;
   }
 </style>
