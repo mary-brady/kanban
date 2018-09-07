@@ -1,20 +1,29 @@
 <template>
   <div class="board container-fluid">
-    <div class="row">
-      <div class="col-md-4 offset-md-4">
-        <div id="nav">
-          <router-link to="/">
-            <h5 class="text-primary inline">Back to Main Page |</h5>
-          </router-link>
-          <h5 class="clickable text-primary inline" @click="logout"> Logout</h5>
-        </div>
-        <h2 v-if="activeBoard.title">{{activeBoard.title}}</h2>
-        <form @submit.prevent="addList">
-          <input type="text" placeholder="title" v-model="newList.title" required>
-          <button type="submit">Create List</button>
+    <div class="row header bg-primary text-white">
+      <div class="col-md-4">
+        <form @submit.prevent="addList" class="mt-5 mb-5">
+          <h3>Add New List</h3>
+          <input class="form-control-lg" name="new-list" type="text" placeholder="list title" v-model="newList.title" required>
+          <button class="btn-lg btn-secondary ml-2" type="submit">Create List</button>
         </form>
       </div>
+      <div class="col-md-4">
+        <h1 v-if="activeBoard.title" class="mt-3">{{activeBoard.title}}</h1>
+        <h5>{{activeBoard.description}}</h5>
+
+        <hr />
+      </div>
+      <div class="col-md-4">
+        <div id="nav">
+          <router-link to="/">
+            <h5 class="clickable inline">Back to Main Page &nbsp |</h5>
+          </router-link>
+          <h5 class="clickable inline" @click="logout">&nbsp Logout</h5>
+        </div>
+      </div>
     </div>
+
     <div class="row">
       <div class="col-md-8">
         <div class="row">
@@ -98,8 +107,13 @@
 </script>
 
 <style>
+  .clickable {
+    color: lightgray;
+  }
+
   .clickable:hover {
     cursor: pointer;
+    color: orange;
   }
 
   .inline {
