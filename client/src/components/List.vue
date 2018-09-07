@@ -13,70 +13,77 @@
       <button type="submit" class="btn btn-primary mt-2">Create Task</button>
     </form>
     <div class="task">
-      <div v-for="task in taskList" :key="task._id" class="col-md-2">
-        <Task :task="task" :list="list" v-on:showDetail="showDetail" />
+      <div v-for="task in taskList" :key="task._id" class="mt-3">
+        <Task :task="task" :list="list" :activeTask="activeTask" v-on:showDetail="showDetail" v-on:hideDetails="hideDetails" />
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
-import Task from "@/components/Task.vue";
+  import Task from "@/components/Task.vue";
 
-export default {
-  name: "List",
+  export default {
+    name: "List",
 
-  props: ["list", "boardId"],
+    props: ["list", "boardId", "activeTask"],
 
-  components: {
-    Task
-  },
-
-  data() {
-    return {
-      taskFormVisible: false,
-      newTask: {
-        title: "",
-        description: "",
-        assignee: "",
-        status: "",
-        estTime: "",
-        startDate: undefined,
-        listId: "",
-        boardId: this.boardId
-      }
-    };
-  },
-
-  methods: {
-    deleteList(list) {
-      this.$store.dispatch("deleteList", list);
+    components: {
+      Task
     },
 
-    addTask(listId) {
-      this.newTask.listId = listId;
-      this.$store.dispatch("addTask", this.newTask);
-      this.newTask = {
-        title: "",
-        description: "",
-        assignee: "",
-        status: "",
-        estTime: "",
-        startDate: undefined
+    data() {
+      return {
+        taskFormVisible: false,
+        newTask: {
+          title: "",
+          description: "",
+          assignee: "",
+          status: "",
+          estTime: "",
+          startDate: undefined,
+          listId: "",
+          boardId: this.boardId
+        }
       };
-      this.taskFormVisible = false;
     },
-    showDetail(task) {
-      this.$parent.$emit("showDetail", task);
-    }
-  },
 
-  computed: {
-    taskList() {
-      return this.$store.state.tasks[this.list._id];
+    methods: {
+      deleteList(list) {
+        this.taskList.forEach(task => {
+          this.$store.dispatch('deleteTaskComments', task._id)
+        })
+        this.$store.dispatch("deleteList", list);
+      },
+
+      addTask(listId) {
+        this.newTask.listId = listId;
+        this.$store.dispatch("addTask", this.newTask);
+        this.newTask = {
+          title: "",
+          description: "",
+          assignee: "",
+          status: "",
+          estTime: "",
+          startDate: undefined
+        };
+        this.taskFormVisible = false;
+      },
+      showDetail(task) {
+        this.$parent.$emit("showDetail", task);
+      },
+
+      hideDetails() {
+        this.$parent.$emit("hideDetails")
+      }
+    },
+
+    computed: {
+      taskList() {
+        return this.$store.state.tasks[this.list._id];
+      }
     }
-  }
-};
+  };
 </script>
 
 <style scoped>

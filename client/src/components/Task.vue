@@ -1,7 +1,7 @@
 <template>
   <div class="task">
-    <h4><strong>{{task.title}}</strong>&nbsp<span class="expand" @click="showDetail(task)"><i class="fa fa-ellipsis-h"></i></span>
-    </h4>
+    <h5><strong>{{task.title}}</strong>&nbsp<span class="expand" @click="showDetail(task)"><i class="fa fa-ellipsis-h"></i></span>
+    </h5>
     <button @click="deleteTask(task)">DELETE TASK</button>
     <button @click="commentFormVisible = !commentFormVisible">Add Comment</button>
     <form class="form-group mt-2" v-if="commentFormVisible" @submit.prevent="addComment(task._id)">
@@ -15,7 +15,7 @@
   export default {
     name: "Task",
 
-    props: ["list", "task"],
+    props: ["list", "task", "activeTask"],
 
     data() {
       return {
@@ -31,6 +31,9 @@
     methods: {
       deleteTask(task) {
         this.$store.dispatch("deleteTask", task);
+        if (task == this.activeTask) {
+          this.$parent.$emit('hideDetails')
+        }
       },
       showDetail(task) {
         this.$parent.$emit("showDetail", task);
