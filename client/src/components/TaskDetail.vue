@@ -14,7 +14,7 @@
     <h2>Comments</h2>
     <ul>
       <li v-for="comment in comments" :key="comment._id">{{comment.userName}} &nbsp {{comment.description}} &nbsp <span @click="deleteComment(comment)">
-          <i class="fa fa-trash"></i> </span> </li>
+          <i class="fa fa-trash clickable"></i> </span> </li>
     </ul>
 
   </div>
