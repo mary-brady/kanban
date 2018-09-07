@@ -34,6 +34,17 @@ export default new Vuex.Store({
       state.user = user
       console.log("user", state.user)
     },
+
+    logout(state) {
+      state.user = {}
+      state.boards = []
+      state.activeBoard = {}
+      state.lists = {}
+      state.tasks = {}
+      state.comments = {}
+      router.push({ name: 'login' })
+    },
+
     setBoards(state, boards) {
       state.boards = boards
     },
@@ -94,7 +105,10 @@ export default new Vuex.Store({
 
     logout({ commit, dispatch }) {
       auth.delete('logout')
-        .then(res => console.log(res.data))
+        .then(res => {
+          console.log(res.data)
+          commit('logout')
+        })
         .catch(err => console.log(err.message))
     },
 
