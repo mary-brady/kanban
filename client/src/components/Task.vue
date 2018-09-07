@@ -1,13 +1,24 @@
 <template>
-  <div class="task">
-    <h5><strong>{{task.title}}</strong>&nbsp<span class="expand" @click="showDetail(task)"><i class="fa fa-ellipsis-h"></i></span>
-    </h5>
-    <button @click="deleteTask(task)">DELETE TASK</button>
-    <button @click="commentFormVisible = !commentFormVisible">Add Comment</button>
-    <form class="form-group mt-2" v-if="commentFormVisible" @submit.prevent="addComment(task._id)">
-      <input type="text" name="description" v-model="newComment.description" placeholder="description"><br>
-      <button type="submit" class="btn btn-primary mt-2">Create Comment</button>
-    </form>
+  <div class="task card border-primary mb-3">
+    <div class="card-header bg-secondary text-white">
+      <h3>
+        <span class="clickable" @click="showDetail(task)"><i class="fa fa-ellipsis-h"></i></span>&nbsp&nbsp
+        <span class="clickable" @click="deleteTask(task)"><i class="fa fa-trash-o"></i></i></span>
+      </h3>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title text-primary"><strong>{{task.title}}</strong></h4>
+      <p class="card-text">{{task.description}}</p>
+    </div>
+    <div class="card-body">
+      <button @click="commentFormVisible = !commentFormVisible" class="btn btn-primary disabled clickable">Add Comment</button>
+      <form class="form-group mt-2 bg-light" v-if="commentFormVisible" @submit.prevent="addComment(task._id)">
+        <input type="text" name="description" v-model="newComment.description" placeholder="comment here"><br>
+        <button type="submit" class="btn btn-success disabled mt-2 clickable">Create Comment</button>
+      </form>
+    </div>
+
+
   </div>
 </template>
 
@@ -60,7 +71,7 @@
 </script>
 
 <style scoped>
-  .expand:hover {
+  .clickable:hover {
     cursor: pointer;
   }
 </style>
