@@ -4,8 +4,9 @@
       <div class="col-md-4 offset-md-4">
         <div id="nav">
           <router-link to="/">
-            <h5 class="text-primary">Back to Main Page</h5>
+            <h5 class="text-primary inline">Back to Main Page |</h5>
           </router-link>
+          <h5 class="clickable text-primary inline" @click="logout"> Logout</h5>
         </div>
         <h2 v-if="activeBoard.title">{{activeBoard.title}}</h2>
         <form @submit.prevent="addList">
@@ -79,6 +80,10 @@
 
       hideDetails() {
         this.activeTask = {}
+      },
+
+      logout() {
+        this.$store.dispatch('logout')
       }
     },
     computed: {
@@ -95,5 +100,9 @@
 <style>
   .clickable:hover {
     cursor: pointer;
+  }
+
+  .inline {
+    display: inline-block;
   }
 </style>

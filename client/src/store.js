@@ -92,6 +92,11 @@ export default new Vuex.Store({
         })
     },
 
+    logout({ commit, dispatch }) {
+      auth.delete('logout')
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err.message))
+    },
 
     //BOARDS
     getBoards({ commit, dispatch }) {
