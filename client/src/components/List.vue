@@ -4,12 +4,16 @@
     <button @click="deleteList(list)">DELETE LIST</button>
     <button @click="taskFormVisible = !taskFormVisible">Add Task</button>
     <form class="form-group mt-2" v-if="taskFormVisible" @submit.prevent="addTask(list._id)">
-      <input type="text" name="title" v-model="newTask.title" placeholder="task title">
-      <input type="text" name="description" v-model="newTask.description" placeholder="description">
-      <input type="text" name="assignee" v-model="newTask.assignee" placeholder="task assigned to">
-      <input type="text" name="status" v-model="newTask.status" placeholder="status(to-do, in-work, complete)">
-      <input type="text" name="estTime" v-model="newTask.estTime" placeholder="estimated duration (hrs)">
-      <input type="text" name="startDate" v-model="newTask.startDate" placeholder="start date (YYYY/MM/DD)"><br>
+      <input class="form-control" type="text" name="title" v-model="newTask.title" placeholder="task title">
+      <input class="form-control" type="text" name="description" v-model="newTask.description" placeholder="description">
+      <input class="form-control" type="text" name="assignee" v-model="newTask.assignee" placeholder="task assigned to">
+      <select name="status" v-model="newTask.status" class="form-control">
+        <option value="To-do" selected>To-do</option>
+        <option value="In-work">In-work</option>
+        <option value="Complete">Complete</option>
+      </select>
+      <input class="form-control" type="text" name="estTime" v-model="newTask.estTime" placeholder="estimated duration (hrs)">
+      <input class="form-control" type="date" name="startDate" v-model="newTask.startDate" placeholder="start date (YYYY/MM/DD)"><br>
       <button type="submit" class="btn btn-primary mt-2">Create Task</button>
     </form>
     <drop class="drop list" @drop="handleDrop(list, ...arguments)">
@@ -62,6 +66,7 @@
 
       addTask(listId) {
         this.newTask.listId = listId;
+        console.log("new task ", this.newTask)
         this.$store.dispatch("addTask", this.newTask);
         this.newTask = {
           title: "",
