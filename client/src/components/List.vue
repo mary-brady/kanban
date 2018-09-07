@@ -65,7 +65,8 @@
           assignee: "",
           status: "",
           estTime: "",
-          startDate: undefined
+          startDate: undefined,
+          boardId: this.boardId
         };
         this.taskFormVisible = false;
       },

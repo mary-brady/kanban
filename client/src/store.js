@@ -49,7 +49,6 @@ export default new Vuex.Store({
 
     setLists(state, lists) {
       Vue.set(state.lists, lists.boardId, lists.lists)
-      console.log('setLists: ', state.lists[lists.boardId])
     },
 
     deleteListTasks(state, listId) {
@@ -58,11 +57,9 @@ export default new Vuex.Store({
 
     setTasks(state, taskList) {
       Vue.set(state.tasks, taskList.listId, taskList.tasks)
-      console.log('setTasks: ', state.tasks[taskList.listId])
     },
     setComments(state, commentList) {
       Vue.set(state.comments, commentList.taskId, commentList.comments)
-      console.log('setComments: ', state.comments[commentList.taskId])
     },
 
     deleteTaskComments(state, taskId) {

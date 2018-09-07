@@ -70,7 +70,7 @@
 
       addList() {
         this.$store.dispatch("addList", this.newList);
-        this.newList = { title: "" };
+        this.newList = { title: "", boardId: this.boardId };
       },
 
       showDetail(task) {
