@@ -68,6 +68,9 @@ export default new Vuex.Store({
 
     setTasks(state, taskList) {
       Vue.set(state.tasks, taskList.listId, taskList.tasks)
+      state.tasks[taskList.listId].forEach(task => {
+        task.created = new Date(task.created).toDateString()
+      })
     },
     setComments(state, commentList) {
       Vue.set(state.comments, commentList.taskId, commentList.comments)
