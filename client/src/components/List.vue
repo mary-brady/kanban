@@ -28,93 +28,92 @@
 </template>
 
 <script>
-  import Task from "@/components/Task.vue";
-  import { Drag, Drop } from 'vue-drag-drop'
+import Task from "@/components/Task.vue";
+import { Drag, Drop } from "vue-drag-drop";
 
-  export default {
+export default {
+  name: "List",
 
-    name: "List",
+  props: ["list", "boardId", "activeTask"],
 
-    props: ["list", "boardId", "activeTask"],
+  components: {
+    Task,
+    Drag,
+    Drop
+  },
 
-    components: {
-      Task,
-      Drag,
-      Drop
+  data() {
+    return {
+      taskFormVisible: false,
+      newTask: {
+        title: "",
+        description: "",
+        assignee: "",
+        status: "",
+        estTime: "",
+        startDate: undefined,
+        listId: "",
+        boardId: this.boardId
+      }
+    };
+  },
+
+  methods: {
+    deleteList(list) {
+      this.taskList.forEach(task => {
+        this.$store.dispatch("deleteTaskComments", task._id);
+      });
+      this.$store.dispatch("deleteList", list);
     },
 
-    data() {
-      return {
-        taskFormVisible: false,
-        newTask: {
-          title: "",
-          description: "",
-          assignee: "",
-          status: "",
-          estTime: "",
-          startDate: undefined,
-          listId: "",
-          boardId: this.boardId
-        }
+    addTask(listId) {
+      this.newTask.listId = listId;
+      console.log("new task ", this.newTask);
+      this.$store.dispatch("addTask", this.newTask);
+      this.newTask = {
+        title: "",
+        description: "",
+        assignee: "",
+        status: "",
+        estTime: "",
+        startDate: undefined,
+        boardId: this.boardId
       };
+      this.taskFormVisible = false;
     },
 
-    methods: {
-      deleteList(list) {
-        this.taskList.forEach(task => {
-          this.$store.dispatch('deleteTaskComments', task._id)
-        })
-        this.$store.dispatch("deleteList", list);
-      },
-
-      addTask(listId) {
-        this.newTask.listId = listId;
-        console.log("new task ", this.newTask)
-        this.$store.dispatch("addTask", this.newTask);
-        this.newTask = {
-          title: "",
-          description: "",
-          assignee: "",
-          status: "",
-          estTime: "",
-          startDate: undefined,
-          boardId: this.boardId
-        };
-        this.taskFormVisible = false;
-      },
-
-      showDetail(task) {
-        this.$emit("showDetail", task);
-      },
-
-      hideDetails() {
-        this.$parent.$emit("hideDetails")
-      },
-
-      handleDrop(toList, data) {
-        this.$store.dispatch('moveTask', {
-          taskId: data.task._id,
-          oldListId: data.task.listId,
-          newListId: toList._id
-        })
-      }
+    showDetail(task) {
+      this.$emit("showDetail", task);
     },
 
-    computed: {
-      taskList() {
-        return this.$store.state.tasks[this.list._id];
-      }
+    hideDetails() {
+      this.$parent.$emit("hideDetails");
+    },
+
+    handleDrop(toList, data) {
+      this.$store.dispatch("moveTask", {
+        taskId: data.task._id,
+        oldListId: data.task.listId,
+        newListId: toList._id
+      });
     }
-  };
+  },
+
+  computed: {
+    taskList() {
+      return this.$store.state.tasks[this.list._id];
+    }
+  }
+};
 </script>
 
 <style scoped>
-  .drop {
-    min-height: 70vh;
-    background-color: rgba(241, 239, 239, 0.678);
-  }
+.drop {
+  min-height: 70vh;
+  background-color: rgba(241, 239, 239, 0.678);
+}
 
-  .underline {
-    border-bottom: 2px solid #593196;
-  }
+.underline {
+  border-bottom: 2px solid #593196;
+}
 </style>
