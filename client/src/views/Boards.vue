@@ -1,14 +1,16 @@
 <template>
   <div class="boards container-fluid">
-    <div class="row header bg-primary text-white">
-      <div class="col-md-12 justify-content-center">
-        <h1>Boards on Boards!</h1>
+    <div class="row header bg-primary text-white text-align-center">
+      <div class="col-md-11 mt-3">
+        <h1><strong>Boards on Boards!</strong></h1>
       </div>
-      <button class="btn btn-outline-info" @click="logout">Logout</button>
+      <div class="col-md-1 text-align-right mt-3">
+      <button class="btn btn-info" @click="logout">Logout</button>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label for="createNewBoard" class="mt-3"><strong>Create a New Board:</strong></label>
+        <label for="createNewBoard" class="mt-3 underline new-board"><strong>Create a New Board</strong></label>
         <form @submit.prevent="addBoard">
           <div class="form-group">
             <input type="text" placeholder="Title" rows="1" v-model="newBoard.title" required>
@@ -40,81 +42,89 @@
 </template>
 
 <script>
-  export default {
+export default {
+  name: "boards",
 
-    name: "boards",
-
-    created() {
-      //blocks users not logged in
-      if (!this.$store.state.user._id) {
-        this.$router.push({ name: "login" });
-      }
-    },
-
-    mounted() {
-      this.$store.dispatch("getBoards");
-    },
-
-    data() {
-      return {
-        newBoard: {
-          title: "",
-          description: ""
-        }
-      };
-    },
-
-    computed: {
-      boards() {
-        return this.$store.state.boards;
-      },
-
-      lists() {
-        return this.$store.state.lists;
-      },
-
-      tasks() {
-        return this.$store.state.tasks;
-      }
-    },
-
-    methods: {
-      deleteBoard(boardId) {
-        if (this.lists[boardId])
-          this.lists[boardId].forEach(list => {
-            this.tasks[list._id].forEach(task => {
-              this.$store.dispatch("deleteTaskComments", task._id);
-            });
-            this.$store.dispatch("deleteListTasks", list._id);
-          });
-        this.$store.dispatch("deleteBoardLists", boardId);
-        this.$store.dispatch("deleteBoard", boardId);
-      },
-
-      addBoard() {
-        this.$store.dispatch("addBoard", this.newBoard);
-        this.newBoard = { title: "", description: "" };
-      },
-
-      logout() {
-        this.$store.dispatch("logout");
-      }
+  created() {
+    //blocks users not logged in
+    if (!this.$store.state.user._id) {
+      this.$router.push({ name: "login" });
     }
-  };
+  },
+
+  mounted() {
+    this.$store.dispatch("getBoards");
+  },
+
+  data() {
+    return {
+      newBoard: {
+        title: "",
+        description: ""
+      }
+    };
+  },
+
+  computed: {
+    boards() {
+      return this.$store.state.boards;
+    },
+
+    lists() {
+      return this.$store.state.lists;
+    },
+
+    tasks() {
+      return this.$store.state.tasks;
+    }
+  },
+
+  methods: {
+    deleteBoard(boardId) {
+      if (this.lists[boardId])
+        this.lists[boardId].forEach(list => {
+          this.tasks[list._id].forEach(task => {
+            this.$store.dispatch("deleteTaskComments", task._id);
+          });
+          this.$store.dispatch("deleteListTasks", list._id);
+        });
+      this.$store.dispatch("deleteBoardLists", boardId);
+      this.$store.dispatch("deleteBoard", boardId);
+    },
+
+    addBoard() {
+      this.$store.dispatch("addBoard", this.newBoard);
+      this.newBoard = { title: "", description: "" };
+    },
+
+    logout() {
+      this.$store.dispatch("logout");
+    }
+  }
+};
 </script>
 
 <style scoped>
-  .clickable:hover {
-    cursor: pointer;
-    color: rgb(33, 11, 51);
-  }
+.clickable:hover {
+  cursor: pointer;
+  color: rgb(33, 11, 51);
+}
 
-  .header {
-    border-bottom: 2px solid black;
-    height: 12vh;
-  }
+.header {
+  border-bottom: 2px solid black;
+  height: 12vh;
+  text-align: center;
+}
 
-  .card {
-    text-align: center;
-  }
+.underline {
+  border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+.card {
+  text-align: center;
+}
+
+.new-board {
+  font-size: medium;
+}
 </style>
