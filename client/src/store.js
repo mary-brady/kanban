@@ -76,6 +76,7 @@ export default new Vuex.Store({
         router.push({ path: '/board/' + state.activeBoard._id })
       })
     },
+
     setComments(state, commentList) {
       Vue.set(state.comments, commentList.taskId, commentList.comments)
       router.push({ path: '/board/' + state.activeBoard._id })
@@ -85,6 +86,7 @@ export default new Vuex.Store({
       delete state.comments[taskId]
     }
   },
+
   actions: {
     //AUTH STUFF
     register({ commit, dispatch }, newUser) {
@@ -164,6 +166,7 @@ export default new Vuex.Store({
           dispatch('getLists', listData.boardId)
         })
     },
+
     deleteList({ commit, dispatch }, listData) {
       api.delete('lists/' + listData._id)
         .then(res => {
@@ -258,6 +261,7 @@ export default new Vuex.Store({
         })
         .catch(err => console.log(err.message))
     },
+
     //COMMENT STUFF
     addComment({ commit, dispatch }, newComment) {
       api.post('comments/', newComment)
@@ -266,6 +270,7 @@ export default new Vuex.Store({
           dispatch('getComments', newComment.taskId)
         })
     },
+
     getComments({ commit, dispatch }, taskId) {
       api.get('comments/by-task/' + taskId)
         .then(res => {
@@ -273,6 +278,7 @@ export default new Vuex.Store({
         })
         .catch(err => console.log(err.message))
     },
+
     deleteComment({ commit, dispatch }, commentData) {
       api.delete('comments/' + commentData._id)
         .then(res => {

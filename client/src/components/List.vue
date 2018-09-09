@@ -32,6 +32,7 @@
   import { Drag, Drop } from 'vue-drag-drop'
 
   export default {
+
     name: "List",
 
     props: ["list", "boardId", "activeTask"],
@@ -81,6 +82,7 @@
         };
         this.taskFormVisible = false;
       },
+
       showDetail(task) {
         this.$emit("showDetail", task);
       },
@@ -90,7 +92,6 @@
       },
 
       handleDrop(toList, data) {
-        console.log("I moved!")
         this.$store.dispatch('moveTask', {
           taskId: data.task._id,
           oldListId: data.task.listId,

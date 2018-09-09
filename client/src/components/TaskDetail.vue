@@ -51,6 +51,7 @@
 </template>
 <script>
   export default {
+
     name: "TaskDetail",
 
     props: ["activeTask"],
@@ -127,6 +128,7 @@
     }
   };
 </script>
+
 <style scoped>
   .clickable:hover {
     cursor: pointer;

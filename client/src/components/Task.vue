@@ -6,7 +6,7 @@
         <span class="clickable" @click="deleteTask(task)"><i class="fa fa-trash-o"></i></i></span>
       </h3>
     </div>
-    <div class="card-body">
+    <div class="card-body" v-bind:class="[{todo: task.status =='To-do'}, {inwork: task.status == 'In-work'}, {complete: task.status == 'Complete'}]">
       <h4 class="card-title text-primary"><strong>{{task.title}}</strong></h4>
       <p class="card-text">{{task.description}}</p>
     </div>
@@ -17,13 +17,12 @@
         <button type="submit" class="btn btn-success disabled mt-2 clickable">Create Comment</button>
       </form>
     </div>
-
-
   </div>
 </template>
 
 <script>
   export default {
+
     name: "Task",
 
     props: ["list", "task", "activeTask"],
@@ -62,6 +61,7 @@
         this.commentFormVisible = false
       }
     },
+
     computed: {
       userName() {
         return this.$store.state.user.name;
@@ -73,5 +73,17 @@
 <style scoped>
   .clickable:hover {
     cursor: pointer;
+  }
+
+  .todo {
+    background: rgba(255, 0, 0, 0.2);
+  }
+
+  .inwork {
+    background: rgba(255, 255, 0, 0.2);
+  }
+
+  .complete {
+    background: rgba(0, 255, 0, 0.2);
   }
 </style>

@@ -25,8 +25,6 @@
 
     </div>
 
-
-
     <div class="row">
       <div class="col-md-8">
         <div class="row">
@@ -61,6 +59,7 @@
       let boardId = this.$route.params.boardId;
       this.$store.dispatch("setActiveBoard", this.boardId);
     },
+
     components: {
       List,
       Task,
@@ -98,10 +97,12 @@
         this.$store.dispatch('logout')
       }
     },
+
     computed: {
       boardLists() {
         return this.$store.state.lists[this.boardId];
       },
+
       activeBoard() {
         return this.$store.state.activeBoard;
       }
