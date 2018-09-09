@@ -5,7 +5,7 @@
         <h1><strong>Boards on Boards!</strong></h1>
       </div>
       <div class="col-md-1 text-align-right mt-3">
-      <button class="btn btn-info" @click="logout">Logout</button>
+      <button class="btn btn-info btn-sm" @click="logout">Logout</button>
       </div>
     </div>
     <div class="row">
