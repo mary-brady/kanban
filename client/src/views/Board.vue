@@ -34,8 +34,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <TaskDetail :activeTask="activeTask" v-if="activeTask._id" v-on:hideDetails="hideDetails" />
+      <div class="col-md-4 detail-jar">
+        <TaskDetail :activeTask="activeTask" v-on:hideDetails="hideDetails" />
       </div>
     </div>
   </div>
@@ -135,5 +135,9 @@
 
   .underline {
     border-bottom: 2px solid white;
+  }
+
+  .detail-jar {
+    overflow-x: hidden;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="task-details mt-5 bg-light p-3">
+  <div class="task-details mt-5 bg-light p-3 slideInRight animated" v-if="activeTask._id">
     <div class="underline">
       <h1 class="text-primary"><strong>{{activeTask.title}} &nbsp <span @click="hideDetails"><i class="fa fa-minus-circle clickable"></i></span></strong></h1>
     </div>
@@ -134,10 +134,18 @@
     cursor: pointer;
   }
 
-  .task-details {
-    border-left-color: #593196;
-    border-left-width: 2px;
-  }
+  /* .task-details {
+    position: absolute;
+    top: 0;
+    right: -300px;
+    /* transition-property: all; */
+  /* transition-duration: 2s;
+    transition-timing-function: linear;
+  } */
+
+  /* .task-details.open {
+    right: 0;
+  } */
 
   .underline {
     border-bottom: 2px solid #593196;
@@ -147,5 +155,25 @@
     list-style-type: none;
 
     font-size: 1.5em;
+  }
+
+  .slideInRight {
+    animation-name: slideInRight;
+  }
+
+
+  .animated {
+    animation-duration: 1s;
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translate3d(100%, 0, 0);
+      visibility: visible;
+    }
+
+    to {
+      transform: translate3d(0, 0, 0);
+    }
   }
 </style>
