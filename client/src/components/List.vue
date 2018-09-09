@@ -91,7 +91,7 @@
 
       handleDrop(toList, data) {
         console.log("I moved!")
-        this.$store.dispatch('updateTask', {
+        this.$store.dispatch('moveTask', {
           taskId: data.task._id,
           oldListId: data.task.listId,
           newListId: toList._id

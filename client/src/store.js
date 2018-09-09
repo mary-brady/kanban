@@ -69,11 +69,16 @@ export default new Vuex.Store({
     setTasks(state, taskList) {
       Vue.set(state.tasks, taskList.listId, taskList.tasks)
       state.tasks[taskList.listId].forEach(task => {
-        task.created = new Date(task.created).toDateString()
+        task.created = new Date(task.created).toISOString().substring(0, 10)
+        if (task.startDate) {
+          task.startDate = task.startDate.substring(0, 10)
+        }
+        router.push({ path: '/board/' + state.activeBoard._id })
       })
     },
     setComments(state, commentList) {
       Vue.set(state.comments, commentList.taskId, commentList.comments)
+      router.push({ path: '/board/' + state.activeBoard._id })
     },
 
     deleteTaskComments(state, taskId) {
@@ -196,11 +201,43 @@ export default new Vuex.Store({
         .catch(err => console.log(err.message))
     },
 
-    updateTask({ commit, dispatch }, taskUpdate) {
+    moveTask({ commit, dispatch }, taskUpdate) {
       api.put('/tasks/' + taskUpdate.taskId, { listId: taskUpdate.newListId })
         .then(res => {
           dispatch('getTasks', taskUpdate.oldListId)
           dispatch('getTasks', taskUpdate.newListId)
+        })
+        .catch(err => console.log(err.message))
+    },
+
+    updateTaskStatus({ commit, dispatch }, taskUpdate) {
+      api.put('/tasks/' + taskUpdate.taskId, { status: taskUpdate.status })
+        .then(res => {
+          dispatch('getTasks', taskUpdate.listId)
+        })
+        .catch(err => console.log(err.message))
+    },
+
+    updateTaskEstimate({ commit, dispatch }, taskUpdate) {
+      api.put('/tasks/' + taskUpdate.taskId, { estTime: taskUpdate.estTime })
+        .then(res => {
+          dispatch('getTasks', taskUpdate.listId)
+        })
+        .catch(err => console.log(err.message))
+    },
+
+    updateTaskAssignee({ commit, dispatch }, taskUpdate) {
+      api.put('/tasks/' + taskUpdate.taskId, { assignee: taskUpdate.assignee })
+        .then(res => {
+          dispatch('getTasks', taskUpdate.listId)
+        })
+        .catch(err => console.log(err.message))
+    },
+
+    updateTaskStartDate({ commit, dispatch }, taskUpdate) {
+      api.put('/tasks/' + taskUpdate.taskId, { startDate: taskUpdate.startDate })
+        .then(res => {
+          dispatch('getTasks', taskUpdate.listId)
         })
         .catch(err => console.log(err.message))
     },
