@@ -1,5 +1,5 @@
 <template>
-  <div class="task-details mt-5 bg-light p-3 slideInRight animated" v-if="activeTask._id">
+  <div class="task-details mt-5 bg-light p-3 slideInRight animated" v-if="detailVisible">    
     <div class="underline">
       <h1 class="text-primary"><strong>{{activeTask.title}} &nbsp <span @click="hideDetails"><i class="fa fa-minus-circle clickable"></i></span></strong></h1>
     </div>
@@ -46,7 +46,6 @@
         <hr />
       </li>
     </ul>
-
   </div>
 </template>
 <script>
@@ -54,7 +53,7 @@
 
     name: "TaskDetail",
 
-    props: ["activeTask"],
+    props: ["activeTask", "detailVisible"],
 
     data() {
       return {
@@ -68,6 +67,7 @@
         estimateFormVisible: false,
         assigneeFormVisible: false,
         startDateFormVisible: false
+
       }
     },
 
@@ -134,18 +134,6 @@
     cursor: pointer;
   }
 
-  /* .task-details {
-    position: absolute;
-    top: 0;
-    right: -300px;
-    /* transition-property: all; */
-  /* transition-duration: 2s;
-    transition-timing-function: linear;
-  } */
-
-  /* .task-details.open {
-    right: 0;
-  } */
 
   .underline {
     border-bottom: 2px solid #593196;
@@ -161,7 +149,6 @@
     animation-name: slideInRight;
   }
 
-
   .animated {
     animation-duration: 1s;
   }
@@ -176,4 +163,5 @@
       transform: translate3d(0, 0, 0);
     }
   }
+  
 </style>

@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="col-md-4 detail-jar">
-        <TaskDetail :activeTask="activeTask" v-on:hideDetails="hideDetails" />
+        <TaskDetail :activeTask="activeTask" :detailVisible="detailVisible" v-on:hideDetails="hideDetails" />
       </div>
     </div>
   </div>
@@ -74,7 +74,8 @@
           title: "",
           boardId: this.boardId
         },
-        activeTask: {}
+        activeTask: {},
+        detailVisible: false
       };
     },
 
@@ -87,10 +88,12 @@
 
       showDetail(task) {
         this.activeTask = task;
+        this.detailVisible = true;
       },
 
       hideDetails() {
-        this.activeTask = {}
+        this.detailVisible = false;
+        //this.activeTask = {}
       },
 
       logout() {
