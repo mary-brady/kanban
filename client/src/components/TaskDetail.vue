@@ -49,126 +49,131 @@
   </div>
 </template>
 <script>
-  export default {
+export default {
+  name: "TaskDetail",
 
-    name: "TaskDetail",
+  props: ["detailVisible"],
 
-    props: ["detailVisible"],
+  data() {
+    return {
+      taskUpdate: {
+        status: "",
+        estTime: "",
+        assignee: "",
+        startDate: undefined
+      },
+      statusFormVisible: false,
+      estimateFormVisible: false,
+      assigneeFormVisible: false,
+      startDateFormVisible: false
+    };
+  },
 
-    data() {
-      return {
-        taskUpdate: {
-          status: '',
-          estTime: '',
-          assignee: '',
-          startDate: undefined
-        },
-        statusFormVisible: false,
-        estimateFormVisible: false,
-        assigneeFormVisible: false,
-        startDateFormVisible: false
-
-      }
+  methods: {
+    deleteComment(comment) {
+      this.$store.dispatch("deleteComment", comment);
     },
 
-    methods: {
-      deleteComment(comment) {
-        this.$store.dispatch("deleteComment", comment);
-      },
-
-      hideDetails() {
-        this.$emit('hideDetails')
-      },
-
-      updateTaskStatus() {
-        this.$store.dispatch('updateTaskStatus', {
-          taskId: this.activeTask._id,
-          listId: this.activeTask.listId,
-          status: this.taskUpdate.status
-        })
-        this.statusFormVisible = false
-        this.taskUpdate.status = ''
-      },
-
-      updateTaskEstimate() {
-        this.$store.dispatch('updateTaskEstimate', {
-          taskId: this.activeTask._id,
-          listId: this.activeTask.listId,
-          estTime: this.taskUpdate.estTime
-        })
-        this.estimateFormVisible = false
-        this.taskUpdate.estTime = ''
-      },
-
-      updateTaskAssignee() {
-        this.$store.dispatch('updateTaskAssignee', {
-          taskId: this.activeTask._id,
-          listId: this.activeTask.listId,
-          assignee: this.taskUpdate.assignee
-        })
-        this.assigneeFormVisible = false
-        this.taskUpdate.assignee = ''
-      },
-
-      updateTaskStartDate() {
-        this.$store.dispatch('updateTaskStartDate', {
-          taskId: this.activeTask._id,
-          listId: this.activeTask.listId,
-          startDate: this.taskUpdate.startDate
-        })
-        this.startDateFormVisible = false
-        this.taskUpdate.startDate = undefined
-      }
+    hideDetails() {
+      this.$emit("hideDetails");
     },
 
-    computed: {
-      comments() {
-        return this.$store.state.comments[this.activeTask._id];
-      },
+    updateTaskStatus() {
+      this.$store.dispatch("updateTaskStatus", {
+        taskId: this.activeTask._id,
+        listId: this.activeTask.listId,
+        status: this.taskUpdate.status
+      });
+      this.statusFormVisible = false;
+      this.taskUpdate.status = "";
+    },
 
-      tasks() {
-        return this.$store.state.tasks[this.activeTask.listId]
-      },
+    updateTaskEstimate() {
+      this.$store.dispatch("updateTaskEstimate", {
+        taskId: this.activeTask._id,
+        listId: this.activeTask.listId,
+        estTime: this.taskUpdate.estTime
+      });
+      this.estimateFormVisible = false;
+      this.taskUpdate.estTime = "";
+    },
 
-      activeTask() {
-        return this.$store.state.activeTask
-      }
+    updateTaskAssignee() {
+      this.$store.dispatch("updateTaskAssignee", {
+        taskId: this.activeTask._id,
+        listId: this.activeTask.listId,
+        assignee: this.taskUpdate.assignee
+      });
+      this.assigneeFormVisible = false;
+      this.taskUpdate.assignee = "";
+    },
+
+    updateTaskStartDate() {
+      this.$store.dispatch("updateTaskStartDate", {
+        taskId: this.activeTask._id,
+        listId: this.activeTask.listId,
+        startDate: this.taskUpdate.startDate
+      });
+      this.startDateFormVisible = false;
+      this.taskUpdate.startDate = undefined;
     }
-  };
+  },
+
+  computed: {
+    comments() {
+      return this.$store.state.comments[this.activeTask._id];
+    },
+
+    tasks() {
+      return this.$store.state.tasks[this.activeTask.listId];
+    },
+
+    activeTask() {
+      return this.$store.state.activeTask;
+    }
+  }
+};
 </script>
 
 <style scoped>
-  .clickable:hover {
-    cursor: pointer;
+.clickable:hover {
+  cursor: pointer;
+}
+
+.underline {
+  border-bottom: 2px solid #593196;
+}
+
+ul {
+  list-style-type: none;
+
+  font-size: 1.5em;
+}
+
+.slideInRight {
+  animation-name: slideInRight;
+}
+
+.animated {
+  animation-duration: 1s;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
   }
 
-
-  .underline {
-    border-bottom: 2px solid #593196;
+  to {
+    transform: translate3d(0, 0, 0);
   }
+}
 
-  ul {
-    list-style-type: none;
-
-    font-size: 1.5em;
-  }
-
-  .slideInRight {
-    animation-name: slideInRight;
-  }
-
-  .animated {
-    animation-duration: 1s;
-  }
-
-  @keyframes slideInRight {
-    from {
-      transform: translate3d(100%, 0, 0);
-      visibility: visible;
-    }
-
-    to {
-      transform: translate3d(0, 0, 0);
-    }
-  }
+h2,
+h3,
+h4,
+h5,
+p {
+  font-family: "Fira Sans Condensed", sans-serif;
+}
 </style>

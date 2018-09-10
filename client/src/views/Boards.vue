@@ -2,7 +2,7 @@
   <div class="boards container-fluid">
     <div class="row header bg-primary text-white text-align-center">
       <div class="col-md-11 mt-4">
-        <h1><strong>Boards on Boards!</strong></h1>
+        <h1>Boards on Boards!</h1>
       </div>
       <div class="col-md-1 text-align-right mt-4">
       <button class="btn btn-success" @click="logout">Logout</button>
@@ -10,7 +10,7 @@
     </div>
     <div class="row">
       <div class="col-md-3">
-        <label for="createNewBoard" class="mt-3 underline new-board"><strong>Create a New Board</strong></label>
+        <label for="createNewBoard" class="mt-3 underline new-board">Create a New Board</label>
         <form @submit.prevent="addBoard">
           <div class="form-group">
             <input type="text" placeholder="Title" rows="1" v-model="newBoard.title" required>
@@ -33,6 +33,8 @@
             </div>
             <div class="card-body">
               <p class="card-text">{{board.description}}</p>
+          </div>
+              <div class="card-footer p-0">
               <p class="card-text"><small class="text-muted"><strong>Created</strong>: {{board.created}}</small></p>
           </div>
           </div>
@@ -117,6 +119,10 @@ export default {
   text-align: center;
 }
 
+h1 {
+  font-family: "Baloo Tammudu", cursive;
+}
+
 .underline {
   border-bottom: 1px solid rgb(0, 0, 0);
 }
@@ -127,5 +133,14 @@ export default {
 
 .new-board {
   font-size: medium;
+}
+
+h2,
+h3,
+h4,
+h5,
+p,
+label {
+  font-family: "Fira Sans Condensed", sans-serif;
 }
 </style>

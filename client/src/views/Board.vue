@@ -42,111 +42,122 @@
 </template>
 
 <script>
-  import List from "@/components/List.vue";
-  import Task from "@/components/Task.vue";
-  import TaskDetail from "@/components/TaskDetail.vue";
+import List from "@/components/List.vue";
+import Task from "@/components/Task.vue";
+import TaskDetail from "@/components/TaskDetail.vue";
 
-  export default {
-    name: "board",
-    created() {
-      //blocks users not logged in
-      if (!this.$store.state.user._id) {
-        this.$router.push({ name: "login" });
-      }
-    },
-
-    mounted() {
-      let boardId = this.$route.params.boardId;
-      this.$store.dispatch("setActiveBoard", this.boardId);
-    },
-
-    components: {
-      List,
-      Task,
-      TaskDetail
-    },
-
-    props: ["boardId"],
-
-    data() {
-      return {
-        newList: {
-          title: "",
-          boardId: this.boardId
-        },
-        detailVisible: false
-      };
-    },
-
-    methods: {
-
-      addList() {
-        this.$store.dispatch("addList", this.newList);
-        this.newList = { title: "", boardId: this.boardId };
-      },
-
-      showDetail(task) {
-        this.$store.dispatch('setActiveTask', task);
-        this.detailVisible = true;
-      },
-
-      hideDetails() {
-        this.detailVisible = false;
-        //this.activeTask = {}
-      },
-
-      logout() {
-        this.$store.dispatch('logout')
-      }
-    },
-
-    computed: {
-      boardLists() {
-        return this.$store.state.lists[this.boardId];
-      },
-
-      activeBoard() {
-        return this.$store.state.activeBoard;
-      },
-      activeTask() {
-        return this.$store.state.activeTask;
-      }
+export default {
+  name: "board",
+  created() {
+    //blocks users not logged in
+    if (!this.$store.state.user._id) {
+      this.$router.push({ name: "login" });
     }
-  };
+  },
+
+  mounted() {
+    let boardId = this.$route.params.boardId;
+    this.$store.dispatch("setActiveBoard", this.boardId);
+  },
+
+  components: {
+    List,
+    Task,
+    TaskDetail
+  },
+
+  props: ["boardId"],
+
+  data() {
+    return {
+      newList: {
+        title: "",
+        boardId: this.boardId
+      },
+      detailVisible: false
+    };
+  },
+
+  methods: {
+    addList() {
+      this.$store.dispatch("addList", this.newList);
+      this.newList = { title: "", boardId: this.boardId };
+    },
+
+    showDetail(task) {
+      this.$store.dispatch("setActiveTask", task);
+      this.detailVisible = true;
+    },
+
+    hideDetails() {
+      this.detailVisible = false;
+      //this.activeTask = {}
+    },
+
+    logout() {
+      this.$store.dispatch("logout");
+    }
+  },
+
+  computed: {
+    boardLists() {
+      return this.$store.state.lists[this.boardId];
+    },
+
+    activeBoard() {
+      return this.$store.state.activeBoard;
+    },
+    activeTask() {
+      return this.$store.state.activeTask;
+    }
+  }
+};
 </script>
 
 <style scoped>
-  .clickable {
-    color: lightgray;
-  }
+.clickable {
+  color: lightgray;
+}
 
-  .clickable:hover {
-    cursor: pointer;
-    color: orange;
-  }
+.clickable:hover {
+  cursor: pointer;
+  color: orange;
+}
 
-  .inline {
-    display: inline-block;
-  }
+.inline {
+  display: inline-block;
+}
 
-  .list-bucket {
-    min-height: 70vh;
-    border-right: 2px solid purple;
-  }
+.list-bucket {
+  min-height: 70vh;
+  border-right: 2px solid purple;
+}
 
-  .header {
-    border-bottom: 2px solid black;
-  }
+.header {
+  border-bottom: 2px solid black;
+}
 
-  .underline {
-    border-bottom: 2px solid white;
-  }
+.underline {
+  border-bottom: 2px solid white;
+}
 
-  .detail-jar {
-    overflow-x: hidden;
-  }
+.detail-jar {
+  overflow-x: hidden;
+}
 
-  .text-right {
-    text-align: right;
-  }
+.text-right {
+  text-align: right;
+}
+
+h1 {
+  font-family: "Baloo Tammudu", cursive;
+}
+
+h2,
+h3,
+h4,
+h5,
+p {
+  font-family: "Fira Sans Condensed", sans-serif;
+}
 </style>

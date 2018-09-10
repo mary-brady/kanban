@@ -1,8 +1,8 @@
 <template>
   <div class="login container-fluid">
     <div class="row header bg-primary text-white text-align-center">
-      <div class="col-md-12 mt-3">
-        <h1><strong>Welcome to BoardTown</strong></h1>
+      <div class="col-md-12 mt-4">
+        <h1>Welcome to BoardTown</h1>
       </div>
     </div>
     <div id="image" class="row">
@@ -40,51 +40,62 @@
 </template>
 
 <script>
-  export default {
-    name: "login",
-    data() {
-      return {
-        loginForm: true,
-        creds: {
-          email: "",
-          password: ""
-        },
-        newUser: {
-          email: "",
-          password: "",
-          name: ""
-        }
-      };
-    },
-    methods: {
-      register() {
-        this.$store.dispatch("register", this.newUser);
+export default {
+  name: "login",
+  data() {
+    return {
+      loginForm: true,
+      creds: {
+        email: "",
+        password: ""
       },
-      loginUser() {
-        this.$store.dispatch("login", this.creds);
+      newUser: {
+        email: "",
+        password: "",
+        name: ""
       }
+    };
+  },
+  methods: {
+    register() {
+      this.$store.dispatch("register", this.newUser);
+    },
+    loginUser() {
+      this.$store.dispatch("login", this.creds);
     }
-  };
+  }
+};
 </script>
 
 <style scoped>
-  .header {
-    border-bottom: 2px solid black;
-    height: 12vh;
-    text-align: center;
-  }
+.header {
+  border-bottom: 2px solid black;
+  height: 12vh;
+  text-align: center;
+}
 
-  .underline {
-    border-bottom: 2px solid rgb(0, 0, 0);
-    width: 250px;
-  }
+h1 {
+  font-family: "Baloo Tammudu", cursive;
+}
 
-  #image {
-    background-image: url("../assets/sticky-notes2.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    min-width: 1400px;
-    min-height: 1000px;
+.underline {
+  border-bottom: 2px solid rgb(0, 0, 0);
+  width: 250px;
+}
 
-  }
+#image {
+  background-image: url("../assets/sticky-notes2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-width: 1400px;
+  min-height: 1000px;
+}
+
+h2,
+h3,
+h4,
+h5,
+p {
+  font-family: "Fira Sans Condensed", sans-serif;
+}
 </style>
