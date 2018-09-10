@@ -1,11 +1,11 @@
 <template>
   <div class="boards container-fluid">
     <div class="row header bg-primary text-white text-align-center">
-      <div class="col-md-11 mt-3">
+      <div class="col-md-11 mt-4">
         <h1><strong>Boards on Boards!</strong></h1>
       </div>
-      <div class="col-md-1 text-align-right mt-3">
-      <button class="btn btn-info btn-sm" @click="logout">Logout</button>
+      <div class="col-md-1 text-align-right mt-4">
+      <button class="btn btn-success" @click="logout">Logout</button>
       </div>
     </div>
     <div class="row">
@@ -33,7 +33,8 @@
             </div>
             <div class="card-body">
               <p class="card-text">{{board.description}}</p>
-            </div>
+              <p class="card-text"><small class="text-muted"><strong>Created</strong>: {{board.created}}</small></p>
+          </div>
           </div>
         </div>
       </div>
