@@ -14,7 +14,7 @@
         </div>
         <h5 class="mb-4 mt-3">{{activeBoard.description}}</h5>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 text-right">
         <div id="nav">
           <router-link to="/">
             <h5 class="clickable inline">Back to Main Page &nbsp |</h5>
@@ -74,7 +74,6 @@
           title: "",
           boardId: this.boardId
         },
-        activeTask: {},
         detailVisible: false
       };
     },
@@ -87,7 +86,7 @@
       },
 
       showDetail(task) {
-        this.activeTask = task;
+        this.$store.dispatch('setActiveTask', task);
         this.detailVisible = true;
       },
 
@@ -108,6 +107,9 @@
 
       activeBoard() {
         return this.$store.state.activeBoard;
+      },
+      activeTask() {
+        return this.$store.state.activeTask;
       }
     }
   };
@@ -142,5 +144,9 @@
 
   .detail-jar {
     overflow-x: hidden;
+  }
+
+  .text-right {
+    text-align: right;
   }
 </style>

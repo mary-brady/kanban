@@ -25,7 +25,8 @@ export default new Vuex.Store({
     activeBoard: {},
     lists: {},
     tasks: {},
-    comments: {}
+    comments: {},
+    activeTask: {}
   },
 
   mutations: {
@@ -76,8 +77,17 @@ export default new Vuex.Store({
         if (task.startDate) {
           task.startDate = task.startDate.substring(0, 10)
         }
+        if (state.activeTask._id) {
+          state.activeTask = taskList.tasks.find(task => {
+            return task._id = state.activeTask._id
+          })
+        }
         router.push({ path: '/board/' + state.activeBoard._id })
       })
+    },
+
+    setActiveTask(state, task) {
+      state.activeTask = task;
     },
 
     setComments(state, commentList) {
@@ -197,6 +207,10 @@ export default new Vuex.Store({
           })
         })
         .catch(err => console.log(err.message))
+    },
+
+    setActiveTask({ commit, dispatch }, task) {
+      commit('setActiveTask', task)
     },
 
     addTask({ commit, dispatch }, newTask) {

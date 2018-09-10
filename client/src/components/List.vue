@@ -34,7 +34,7 @@
   export default {
     name: "List",
 
-    props: ["list", "boardId", "activeTask"],
+    props: ["list", "boardId"],
 
     components: {
       Task,
@@ -101,6 +101,10 @@
     computed: {
       taskList() {
         return this.$store.state.tasks[this.list._id];
+      },
+
+      activeTask() {
+        return this.$store.state.activeTask
       }
     }
   };

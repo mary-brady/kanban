@@ -53,7 +53,7 @@
 
     name: "TaskDetail",
 
-    props: ["activeTask", "detailVisible"],
+    props: ["detailVisible"],
 
     data() {
       return {
@@ -128,6 +128,10 @@
 
       tasks() {
         return this.$store.state.tasks[this.activeTask.listId]
+      },
+
+      activeTask() {
+        return this.$store.state.activeTask
       }
     }
   };
