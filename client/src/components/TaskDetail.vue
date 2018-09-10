@@ -1,5 +1,5 @@
 <template>
-  <div class="task-details mt-5 bg-light p-3 slideInRight animated" v-if="detailVisible">    
+  <div class="task-details mt-5 bg-light p-3 slideInRight animated" v-if="detailVisible">
     <div class="underline">
       <h1 class="text-primary"><strong>{{activeTask.title}} &nbsp <span @click="hideDetails"><i class="fa fa-minus-circle clickable"></i></span></strong></h1>
     </div>
@@ -7,7 +7,7 @@
     <ul>
       <li><strong>Status</strong>: {{activeTask.status}}&nbsp &nbsp<span class="clickable" @click="statusFormVisible = !statusFormVisible"><i
             class="fa fa-edit"></i></span></li>
-      <form v-if="statusFormVisible" @submit="updateTaskStatus()" class="form-inline">
+      <form v-if="statusFormVisible" @submit.prevent="updateTaskStatus()" class="form-inline">
         <select name="status" v-model="taskUpdate.status" class="form-control">
           <option value="To-do" selected>To-do</option>
           <option value="In-work">In-work</option>
@@ -17,19 +17,19 @@
       </form>
       <li><strong>Estimate</strong>: {{activeTask.estTime}}&nbsp &nbsp<span class="clickable" @click="estimateFormVisible=!estimateFormVisible"><i
             class="fa fa-edit"></i></span></li>
-      <form v-if="estimateFormVisible" @submit="updateTaskEstimate()" class="form-inline">
+      <form v-if="estimateFormVisible" @submit.prevent="updateTaskEstimate()" class="form-inline">
         <input type="number" name="estimate" v-model="taskUpdate.estTime" class="form-control" />
         <button type="Submit" class="btn btn-primary ml-2">Submit</button>
       </form>
       <li><strong>Assignee</strong>: {{activeTask.assignee}}&nbsp &nbsp<span class="clickable" @click="assigneeFormVisible = !assigneeFormVisible"><i
             class="fa fa-edit"></i></span></li>
-      <form v-if="assigneeFormVisible" @submit="updateTaskAssignee()" class="form-inline">
+      <form v-if="assigneeFormVisible" @submit.prevent="updateTaskAssignee()" class="form-inline">
         <input type="text" name="assignee" v-model="taskUpdate.assignee" class="form-control" />
         <button type="Submit" class="btn btn-primary ml-2">Submit</button>
       </form>
       <li><strong>Start Date</strong>: {{activeTask.startDate}}&nbsp &nbsp<span class="clickable" @click="startDateFormVisible=!startDateFormVisible"><i
             class="fa fa-edit"></i></span></li>
-      <form v-if="startDateFormVisible" @submit="updateTaskStartDate()" class="form-inline">
+      <form v-if="startDateFormVisible" @submit.prevent="updateTaskStartDate()" class="form-inline">
         <input type="date" name="startDate" v-model="taskUpdate.startDate" class="form-control" />
         <button type="Submit" class="btn btn-primary ml-2">Submit</button>
       </form>
@@ -124,6 +124,10 @@
     computed: {
       comments() {
         return this.$store.state.comments[this.activeTask._id];
+      },
+
+      tasks() {
+        return this.$store.state.tasks[this.activeTask.listId]
       }
     }
   };
@@ -163,5 +167,4 @@
       transform: translate3d(0, 0, 0);
     }
   }
-  
 </style>
