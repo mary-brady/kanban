@@ -47,6 +47,9 @@ export default new Vuex.Store({
 
     setBoards(state, boards) {
       state.boards = boards
+      state.boards.forEach(board => {
+        board.created = new Date(board.created).toDateString()
+      })
     },
 
     setActiveBoard(state, boardId) {
