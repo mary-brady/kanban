@@ -2,9 +2,9 @@ var express = require('express')
 var bp = require('body-parser')
 var server = express()
 var cors = require('cors')
-var port = 3000
+var port = process.env.PORT || 3000
 
-var whitelist = ['http://localhost:8080'];
+var whitelist = ['http://localhost:8080', 'https://board-on-boards.herokuapp.com'];
 var corsOptions = {
   origin: function (origin, callback) {
     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
@@ -13,6 +13,7 @@ var corsOptions = {
   credentials: true
 };
 server.use(cors(corsOptions))
+server.use(express.static(__dirname + '/../client/dist'))
 
 //Fire up database connection
 require('./server-assets/db/mlab-config')
